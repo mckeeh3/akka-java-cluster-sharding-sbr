@@ -10,33 +10,40 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <akka.version>2.5.9</akka.version>
+        <scala.version>2.12</scala.version>
+        <akka.version>2.5.14</akka.version>
+        <akka.sbr.version>1.1.2</akka.sbr.version>
     </properties>
 
     <dependencies>
         <dependency>
+            <groupId>com.lightbend.akka</groupId>
+            <artifactId>akka-split-brain-resolver_${scala.version}</artifactId>
+            <version>${akka.sbr.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-actor_2.12</artifactId>
+            <artifactId>akka-actor_${scala.version}</artifactId>
             <version>${akka.version}</version>
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-cluster_2.12</artifactId>
+            <artifactId>akka-cluster_${scala.version}</artifactId>
             <version>${akka.version}</version>
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-cluster-sharding_2.12</artifactId>
+            <artifactId>akka-cluster-sharding_${scala.version}</artifactId>
             <version>${akka.version}</version>
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-cluster-metrics_2.12</artifactId>
+            <artifactId>akka-cluster-metrics_${scala.version}</artifactId>
             <version>${akka.version}</version>
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-slf4j_2.12</artifactId>
+            <artifactId>akka-slf4j_${scala.version}</artifactId>
             <version>${akka.version}</version>
         </dependency>
         <dependency>
@@ -46,7 +53,7 @@
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-testkit_2.12</artifactId>
+            <artifactId>akka-testkit_${scala.version}</artifactId>
             <version>${akka.version}</version>
             <scope>test</scope>
         </dependency>
@@ -87,4 +94,11 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>lightbend-commercial</id>
+            <name>Lightbend Commercial</name>
+            <url>https://lightbend.bintray.com/commercial-releases</url>
+        </repository>
+    </repositories>
 </project>
