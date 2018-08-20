@@ -1,4 +1,4 @@
-## Akka Java Cluster Example
+## Akka Java Cluster Example with SBR
 
 ### Akka Split Brain Resolver (SBR) 
 
