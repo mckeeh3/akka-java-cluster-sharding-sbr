@@ -1,4 +1,18 @@
-## Akka Java Cluster Example
+## Akka Java Cluster Example with SBR
+
+### Akka Split Brain Resolver (SBR) 
+
+This project provides an example of running an Akka cluster with SBR enabled. The example code uses cluster sharding to run a collection of actors across an Akka cluster. 
+
+To see an example of SBR in action, follow the steps below to start up a cluster of 2 or more nodes. Once the cluster is up and running stop one of the nodes by killing the node JVM. On Linux systems or a Mac use the `kill -9 <PID>` command to terminate one of the cluster node JVMs. 
+
+With SBR, when one or more nodes abruptly leaves a cluster the remaining cluster nodes will down the unreachable node or nodes. SBR logs node downing events in the log file of the 
+[cluster leader](https://doc.akka.io/docs/akka/current/common/cluster.html#leader)
+node. Search the leader log file for the term "SBR".
+
+See the 
+[SBR documentation](https://developer.lightbend.com/docs/akka-commercial-addons/current/split-brain-resolver.html)
+for information on the mechanics of SBR and instructions for enabling it.
 
 ### Installation and Running
 
