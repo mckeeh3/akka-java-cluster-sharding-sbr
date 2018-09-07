@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 class EntityCommandActor extends AbstractLoggingActor {
     private final ActorRef shardRegion;
     private Cancellable ticker;
-    private FiniteDuration tickInterval = Duration.create(2, TimeUnit.SECONDS);
+    private FiniteDuration tickInterval = Duration.create(10, TimeUnit.SECONDS);
     private int messageNumber;
     private final Receive sending;
     private final Receive receiving;

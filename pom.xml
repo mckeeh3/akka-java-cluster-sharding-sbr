@@ -11,8 +11,9 @@
     <properties>
         <java.version>8</java.version>
         <scala.version>2.12</scala.version>
-        <akka.version>2.5.9</akka.version>
+        <akka.version>2.5.15</akka.version>
         <akka.sbr.version>1.1.2</akka.sbr.version>
+        <akka.thread.starvation.version>1.1.3</akka.thread.starvation.version>
     </properties>
 
     <dependencies>
@@ -20,6 +21,11 @@
             <groupId>com.lightbend.akka</groupId>
             <artifactId>akka-split-brain-resolver_${scala.version}</artifactId>
             <version>${akka.sbr.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lightbend.akka</groupId>
+            <artifactId>akka-diagnostics_${scala.version}</artifactId>
+            <version>${akka.thread.starvation.version}</version>
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>

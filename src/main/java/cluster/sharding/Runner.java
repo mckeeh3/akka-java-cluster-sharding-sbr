@@ -1,7 +1,9 @@
 package cluster.sharding;
 
+import akka.Done;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import akka.actor.CoordinatedShutdown;
 import akka.cluster.Cluster;
 import akka.cluster.sharding.ClusterSharding;
 import akka.cluster.sharding.ClusterShardingSettings;
@@ -14,6 +16,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class Runner {
     public static void main(String[] args) {
@@ -43,6 +46,9 @@ public class Runner {
             actorSystem.actorOf(EntityCommandActor.props(shardingRegion), "entityCommand");
             actorSystem.actorOf(EntityQueryActor.props(shardingRegion), "entityQuery");
 
+            actorSystem.log().info("Akka node {}", actorSystem.provider().getDefaultAddress());
+            coordinatedShutdownTask(actorSystem);
+
             actorSystems.add(actorSystem);
         });
 
@@ -64,6 +70,16 @@ public class Runner {
                 settings,
                 EntityMessage.messageExtractor()
         );
+    }
+
+    private static void coordinatedShutdownTask(ActorSystem actorSystem) {
+        CoordinatedShutdown.get(actorSystem).addTask(
+                CoordinatedShutdown.PhaseClusterShutdown(),
+                "exit-jvm-when-downed",
+                () -> {
+                    actorSystem.log().warning("Coordinated node shutdown");
+                    return CompletableFuture.completedFuture(Done.getInstance());
+                });
     }
 
     private static void hitEnterToStop() {
