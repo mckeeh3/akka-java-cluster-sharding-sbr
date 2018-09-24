@@ -38,6 +38,7 @@ public class Runner {
 
         ports.forEach(port -> {
             ActorSystem actorSystem = ActorSystem.create("sharding", setupClusterNodeConfig(port));
+            actorSystems.add(actorSystem);
 
             actorSystem.actorOf(ClusterListenerActor.props(), "clusterListener");
 
@@ -46,10 +47,9 @@ public class Runner {
             actorSystem.actorOf(EntityCommandActor.props(shardingRegion), "entityCommand");
             actorSystem.actorOf(EntityQueryActor.props(shardingRegion), "entityQuery");
 
-            actorSystem.log().info("Akka node {}", actorSystem.provider().getDefaultAddress());
-            coordinatedShutdownTask(actorSystem);
+            addCoordinatedShutdownTask(actorSystem, CoordinatedShutdown.PhaseClusterShutdown());
 
-            actorSystems.add(actorSystem);
+            actorSystem.log().info("Akka node {}", actorSystem.provider().getDefaultAddress());
         });
 
         return actorSystems;
@@ -72,12 +72,12 @@ public class Runner {
         );
     }
 
-    private static void coordinatedShutdownTask(ActorSystem actorSystem) {
+    private static void addCoordinatedShutdownTask(ActorSystem actorSystem, String coordindateShutdownPhase) {
         CoordinatedShutdown.get(actorSystem).addTask(
-                CoordinatedShutdown.PhaseClusterShutdown(),
-                "exit-jvm-when-downed",
+                coordindateShutdownPhase,
+                coordindateShutdownPhase,
                 () -> {
-                    actorSystem.log().warning("Coordinated node shutdown");
+                    actorSystem.log().warning("Coordinated shutdown phase {}", coordindateShutdownPhase);
                     return CompletableFuture.completedFuture(Done.getInstance());
                 });
     }
