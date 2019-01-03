@@ -1,0 +1,21 @@
+#!/bin/bash
+
+intRegEx='^[0-9]+$'
+if [ -z $1 ] || ! [[ $1 =~ $intRegEx ]] ; then
+    echo "usage: $0 N - N for Akka node 1, 2, 3, etc."
+    exit 1
+fi
+
+nodeNumber=$1
+port=0
+
+if [ $nodeNumber == 1 ] ; then
+    port=2551
+elif [ $nodeNumber == 2 ] ; then
+    port=2552
+fi
+
+clear
+#mvn exec:exec -Dexec.args="-XX:+PrintGCApplicationStoppedTime -verbose:gc -classpath %classpath cluster.sharding.Runner $port" > /tmp/$(basename $PWD)-$nodeNumber.log
+java -jar target/*allinone.jar $port > /tmp/$(basename $PWD)-$nodeNumber.log
+echo "Node $nodeNumber exit status code = $?"
